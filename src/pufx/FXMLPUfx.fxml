@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.collections.*?>
+<?import pufx.*?>
+<?import javafx.scene.control.cell.*?>
+
+<GridPane alignment="CENTER" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pufx.FXMLPUfxController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <children>
+        <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0" >
+            <children>
+                <HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Elastic Modulus [MPa]:"/>
+                    <TextField fx:id="txt_E0" text="102.11"/>
+                </HBox>
+                <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <columns>
+                        <TableColumn text="E [MPa]" prefWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="EiItem"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Tau [s]" prefWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="TauiItem"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <PUTable EiItem="20.14" TauiItem="0.58" />
+                            <PUTable EiItem="14.3" TauiItem="3.13" />
+                            <PUTable EiItem="9.97" TauiItem="18.72" />
+                            <PUTable EiItem="7.25" TauiItem="125.41" />
+                            <PUTable EiItem="5.15" TauiItem="1042" />
+                            <PUTable EiItem="3.4" TauiItem="10942" />
+                            <PUTable EiItem="2.1" TauiItem="159569" />
+                            <PUTable EiItem="1.8" TauiItem="5215397" />
+                        </FXCollections>
+                    </items>
+                </TableView>
+                <HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <TextField fx:id="txt_Ei" promptText="Elastic Mod." prefWidth="90"/>
+                    <TextField fx:id="txt_Taui" promptText="Rel. Time" prefWidth="90"/>
+                    <Button text="Add" onAction="#add"/>
+                    <Button text="Clear" onAction="#clear"/>
+                </HBox>
+                
+                <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <Label text="Shift factor parameters:"/>
+                    <HBox spacing="10" alignment="center">
+                        <TextField fx:id="txt_Tref" promptText="Tref." prefWidth="90"/>
+                        <TextField fx:id="txt_c1" promptText="c1" prefWidth="90"/>
+                        <TextField fx:id="txt_c2" promptText="c2" prefWidth="90"/>
+                    </HBox>
+                </VBox>
+                
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                    <items>
+                    <AnchorPane>
+                    <children>
+                
+                        <VBox spacing="10">
+                            <Label text="Frequencies [Hz]:"/>
+                            <HBox spacing="10" alignment="center" >
+                                <TextField fx:id="txt_startF" promptText="Start" prefWidth="90"/>
+                                <TextField fx:id="txt_endF" promptText="End" prefWidth="90"/>
+                                <TextField fx:id="txt_nF" promptText="n" prefWidth="90"/>
+                            </HBox>
+                            <HBox spacing="10" alignment="center_right">
+                                <Label text="Temperature [°C]:"/>
+                                <TextField fx:id="txt_temp" promptText="Temp." prefWidth="90"/>
+                            </HBox>
+                        </VBox>
+                
+                    </children>
+                    </AnchorPane>
+                    <AnchorPane>
+                    <children>
+                    
+                        <VBox spacing="10" >
+                            <Label text="Temperatures [°C]:" />
+                            <HBox spacing="10" alignment="center" >
+                                <TextField fx:id="txt_startT" promptText="Start" prefWidth="90"/>
+                                <TextField fx:id="txt_endT" promptText="End" prefWidth="90"/>
+                                <TextField fx:id="txt_nT" promptText="n" prefWidth="90"/>
+                            </HBox>
+                            <HBox spacing="10" alignment="center_right">
+                                <Label text="Frequencie [Hz]:"/>
+                                <TextField fx:id="txt_freq" promptText="Freq." prefWidth="90"/>
+                            </HBox>
+                        </VBox>
+                    </children>
+                    </AnchorPane>
+                    </items>
+                </SplitPane>
+                <HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                        <Button text="Generate" onAction="#generate"/>
+                        <Button text="Export to CSV"/>
+                        <Button text="Clear" onAction="#clearSeries"/>                        
+                </HBox>
+            </children>            
+        </GridPane>
+        
+        
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0" >
+            <children>
+                <LineChart fx:id="chart_EpVSFreq" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <xAxis><NumberAxis label="Frequency [Hz]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Storage Modulus [MPa]" side="LEFT" /></yAxis>
+                </LineChart>
+                <LineChart fx:id="chart_EppVSFreq" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <xAxis><NumberAxis label="Frequency [Hz]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Loss Modulus [MPa]" side="LEFT" /></yAxis>
+                </LineChart>
+                <LineChart fx:id="chart_EpVSTemp" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <xAxis><NumberAxis label="Temperature [°C]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Storage Modulus [MPa]" side="LEFT" /></yAxis>
+                </LineChart>
+                <LineChart fx:id="chart_EppVSTemp" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <xAxis><NumberAxis label="Temperature [°C]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Loss Modulus [MPa]" side="LEFT" /></yAxis>
+                </LineChart>
+                <HBox alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Hyperlink text="Luis Carlos A. Rojas Torres"/>
+                </HBox> 
+            </children>
+        </GridPane>
+        
+    </children>
+</GridPane>
