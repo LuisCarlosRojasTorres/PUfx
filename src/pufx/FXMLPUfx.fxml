@@ -105,8 +105,8 @@
                 </SplitPane>
                 <HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="5">
                         <Button text="Generate" onAction="#generate"/>
-                        <Button text="Export to CSV"/>
-                        <Button text="Clear" onAction="#clearSeries"/>                        
+                        <Button text="Export to CSV" onAction="#exportCSV"/>
+                        <Button text="Print" onAction="#print"/>                        
                 </HBox>
             </children>            
         </GridPane>

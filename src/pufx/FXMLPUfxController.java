@@ -33,7 +33,15 @@ public class FXMLPUfxController {
     ArrayList<Double> temperatures,frequencies;
     ArrayList<Double> EpVSTemp,EppVSTemp,EpVSFreq,EppVSFreq;
     //Axis
+    /*@FXML final NumberAxis xEpVSTemp = new NumberAxis();
+    @FXML final NumberAxis yEpVSTemp = new NumberAxis();
+    @FXML final NumberAxis xEpVSFreq = new NumberAxis();
+    @FXML final NumberAxis yEpVSFreq = new NumberAxis();
     
+    @FXML final NumberAxis xEppVSTemp = new NumberAxis();
+    @FXML final NumberAxis yEppVSTemp = new NumberAxis();
+    @FXML final NumberAxis xEppVSFreq = new NumberAxis();
+    @FXML final NumberAxis yEppVSFreq = new NumberAxis();*/
     
     //Series que contienen los datos
     XYChart.Series seriesEpVSTemp  = new XYChart.Series();
@@ -41,9 +49,14 @@ public class FXMLPUfxController {
     XYChart.Series seriesEpVSFreq  = new XYChart.Series();
     XYChart.Series seriesEppVSFreq  = new XYChart.Series();
     //Objetos chart
-    @FXML private LineChart<Number,Number> chart_EpVSTemp,chart_EppVSTemp,chart_EpVSFreq,chart_EppVSFreq;
-    double temp,freq;
+    @FXML private LineChart<Number,Number> chart_EpVSTemp;
+    @FXML private LineChart<Number,Number> chart_EppVSTemp;
+    @FXML private LineChart<Number,Number> chart_EpVSFreq;
+    @FXML private LineChart<Number,Number> chart_EppVSFreq;
     
+    double temp,freq;
+    boolean firstTime = true;
+        
     @FXML protected void add(ActionEvent event){
         ObservableList<PUTable> data = tableView.getItems();
         if(!txt_Ei.getText().equals("") && !txt_Taui.getText().equals("")){
@@ -64,12 +77,21 @@ public class FXMLPUfxController {
         PU.printALL();
         EpppVSTempMaker();
         EpppVSFreqMaker();
-        //System.out.println(EpVSTemp);
-        //System.out.println(EppVSTemp);
-        //System.out.println(EpVSFreq);
-        //System.out.println(EppVSFreq);
+        
+        System.out.println("Storage and Loss Moduli VS Freq[Hz]");
+        System.out.println("# of Frequencies: "+frequencies.size()+" at Temperature: "+temp);
+        System.out.println("Storage and Loss Moduli VS Temp[°C]");
+        System.out.println("# of Temperatures: "+temperatures.size()+" at Frequency; "+freq);
         seriesEpppVSTempMaker();
         seriesEpppVSFreqMaker();
+        
+        if(firstTime){
+            chart_EpVSTemp.getData().addAll(seriesEpVSTemp);
+            chart_EppVSTemp.getData().addAll(seriesEppVSTemp);
+            chart_EpVSFreq.getData().add(seriesEpVSFreq);
+            chart_EppVSFreq.getData().add(seriesEppVSFreq);
+            firstTime = false;
+        }
     }
     
     private LV LVmaker(){
@@ -141,42 +163,53 @@ public class FXMLPUfxController {
     }
     
     public void seriesEpppVSTempMaker(){
+                
+        System.out.println("BEFORE:");
+        System.out.println("size series: "+seriesEpVSTemp.getData().size()+"-"+seriesEppVSTemp.getData().size());
+        //System.out.println("chart series: "+chart_EpVSTemp.getData().size()+"-"+chart_EppVSTemp.getData().size());
+        
+        
         seriesEpVSTemp.getData().clear();
         seriesEppVSTemp.getData().clear();
-        //chart_EpVSTemp.getData().clear();
-        //chart_EppVSTemp.getData().clear();
         
         for(int i=0;i<temperatures.size();i++){
             seriesEpVSTemp.getData().add(new XYChart.Data(temperatures.get(i),EpVSTemp.get(i)));
             seriesEppVSTemp.getData().add(new XYChart.Data(temperatures.get(i),EppVSTemp.get(i)));
         }
-        
-        chart_EpVSTemp.getData().add(seriesEpVSTemp);
-        chart_EppVSTemp.getData().add(seriesEppVSTemp);
-        
         seriesEpVSTemp.setName(Double.toString(freq)+" [Hz]");
         seriesEppVSTemp.setName(Double.toString(freq)+" [Hz]");
+        
+        
+        System.out.println("AFTER:");
+        System.out.println("size series: "+seriesEpVSTemp.getData().size()+"-"+seriesEppVSTemp.getData().size());
+        //System.out.println("chart series: "+chart_EpVSTemp.getData().size()+"-"+chart_EppVSTemp.getData().size());
+        System.out.println("");
+        
     }
     
     public void seriesEpppVSFreqMaker(){
         seriesEpVSFreq.getData().clear();
         seriesEppVSFreq.getData().clear();
-        //chart_EpVSFreq.getData().clear();
-        //chart_EppVSFreq.getData().clear();
-        
+                
         for(int i=0;i<frequencies.size();i++){
             seriesEpVSFreq.getData().add(new XYChart.Data(frequencies.get(i),EpVSFreq.get(i)));
             seriesEppVSFreq.getData().add(new XYChart.Data(frequencies.get(i),EppVSFreq.get(i)));
         }
-        
-        chart_EpVSFreq.getData().add(seriesEpVSFreq);
-        chart_EppVSFreq.getData().add(seriesEppVSFreq);
-        
         seriesEpVSFreq.setName(Double.toString(temp)+" [°C]");
         seriesEppVSFreq.setName(Double.toString(temp)+" [°C]");
+        
+        
+        
     }
     
-    @FXML public void clearSeries(){
-        
+    @FXML public void print(){
+        if(!firstTime){
+        System.out.println("PDF generated");
+        }
+    }
+    @FXML public void exportCSV(){
+        if(!firstTime){
+        System.out.println("CSV file generated!");
+        }
     }
 }
