@@ -33,16 +33,6 @@ public class FXMLPUfxController {
     ArrayList<Double> temperatures,frequencies;
     ArrayList<Double> EpVSTemp,EppVSTemp,EpVSFreq,EppVSFreq;
     //Axis
-    /*@FXML final NumberAxis xEpVSTemp = new NumberAxis();
-    @FXML final NumberAxis yEpVSTemp = new NumberAxis();
-    @FXML final NumberAxis xEpVSFreq = new NumberAxis();
-    @FXML final NumberAxis yEpVSFreq = new NumberAxis();
-    
-    @FXML final NumberAxis xEppVSTemp = new NumberAxis();
-    @FXML final NumberAxis yEppVSTemp = new NumberAxis();
-    @FXML final NumberAxis xEppVSFreq = new NumberAxis();
-    @FXML final NumberAxis yEppVSFreq = new NumberAxis();*/
-    
     //Series que contienen los datos
     XYChart.Series seriesEpVSTemp  = new XYChart.Series();
     XYChart.Series seriesEppVSTemp = new XYChart.Series();
@@ -201,7 +191,13 @@ public class FXMLPUfxController {
         
         
     }
-    
+    @FXML public void undo(ActionEvent event){
+        if(!firstTime){
+            ObservableList<PUTable> data = tableView.getItems();
+            data.remove(data.size()-1);
+            
+        }
+    }
     @FXML public void print(){
         if(!firstTime){
         System.out.println("PDF generated");

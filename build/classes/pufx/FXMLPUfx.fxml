@@ -48,13 +48,17 @@
                         </FXCollections>
                     </items>
                 </TableView>
-                <HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <VBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <HBox spacing="10" alignment="center">
                     <TextField fx:id="txt_Ei" promptText="Elastic Mod." prefWidth="90"/>
                     <TextField fx:id="txt_Taui" promptText="Rel. Time" prefWidth="90"/>
+                </HBox>
+                <HBox spacing="10" alignment="center" >
                     <Button text="Add" onAction="#add"/>
+                    <Button text="Undo" onAction="#undo"/>
                     <Button text="Clear" onAction="#clear"/>
                 </HBox>
-                
+                </VBox>
                 <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="3">
                     <Label text="Shift factor parameters:"/>
                     <HBox spacing="10" alignment="center">
