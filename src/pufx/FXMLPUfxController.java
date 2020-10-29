@@ -5,15 +5,22 @@
  */
 package pufx;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  *
@@ -198,10 +205,23 @@ public class FXMLPUfxController {
             
         }
     }
-    @FXML public void print(){
+    @FXML public void simulate (){
         if(!firstTime){
-        System.out.println("PDF generated");
+        System.out.println("Simulation Running");
         }
+        Stage Ventana = new Stage();
+        Parent simulation = null;
+        try {
+            simulation = FXMLLoader.load(getClass().getResource("FXMLSimulation.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPUfxController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Scene scene = new Scene(simulation);
+        
+        Ventana.setScene(scene);
+        Ventana.setTitle("Shear and Axial Stress Simulation");
+        Ventana.show();
     }
     @FXML public void exportCSV(){
         if(!firstTime){

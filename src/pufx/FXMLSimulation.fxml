@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.Text.*?>
+
+<GridPane alignment="CENTER" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pufx.FXMLSimulationController">
+    <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+    </padding>
+    <children>
+        <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <children>
+                <GridPane alignment="CENTER" hgap="10" vgap="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <children>
+                <Label text="Geometry" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="Length [m]:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="txt_length" promptText="[m]" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Area [m^2]:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <TextField fx:id="txt_area" promptText="[m^2]" prefWidth="90" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                
+                <Label text="Loads" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="Force [kN]:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="txt_force" promptText="[kN]" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label text="Frequency [Hz]:" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <TextField fx:id="txt_freq" promptText="[Hz]" prefWidth="90" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                
+                <Label text="Initial Conditions" GridPane.columnIndex="0" GridPane.rowIndex="4"/>                
+                    <Label text="Initial Temp. [°C]:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <TextField fx:id="txt_temp0" promptText="[°C]" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                
+                    <Label text="Temp. at Fixed end [°C]:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                    <TextField fx:id="txt_BCtemp" promptText="[°C]" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            
+                </children>
+                </GridPane>
+            
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <items>
+                        <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <VBox spacing="10">
+                                <Label text="First Analysis: Shear stress"/>
+                                <HBox spacing="10" alignment="center" >
+                                    <Label text="Number of Elements:"/>
+                                    <TextField fx:id="txt_cs1_n" promptText="numelem" prefWidth="90"/>
+                                    <Label text="Total time [hr]:"/>
+                                    <TextField fx:id="txt_cs1_totalTime" promptText="numelem" prefWidth="90"/>
+                                </HBox>
+                                <HBox spacing="10" alignment="center_right">
+                                    <Label text="Temperature [°C]:"/>
+                                    <TextField fx:id="txt_temp" promptText="Temp." prefWidth="90"/>
+                                </HBox>
+                        </VBox>
+                    </GridPane>
+                        <GridPane alignment="CENTER" hgap="10" vgap="10">
+                        <VBox spacing="10">
+                                <Label text="Second Analysis: Axial stress"/>
+                                <HBox spacing="10" alignment="center" >
+                                    <TextField fx:id="txt_cs2_n" promptText="numelem" prefWidth="90"/>
+                                    <TextField fx:id="txt_endF2" promptText="End" prefWidth="90"/>
+                                    <TextField fx:id="txt_nF2" promptText="n" prefWidth="90"/>
+                                </HBox>
+                                <HBox spacing="10" alignment="center_right">
+                                    <Label text="Temperature [°C]:"/>
+                                    <TextField fx:id="txt_temp2" promptText="Temp." prefWidth="90"/>
+                                </HBox>
+                            </VBox>
+                    </GridPane>
+                    </items>
+                </SplitPane>
+            </children>
+        </GridPane>
+                
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0" >
+            <children>
+                <LineChart title ="First Analysis: Shear stress " fx:id="cs1" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <xAxis><NumberAxis label="Length [m]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Temperature [°C]" side="LEFT" /></yAxis>
+                </LineChart>
+                <LineChart title ="Second Analysis: Axial stresses" fx:id="cs2" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <xAxis><NumberAxis label="Length [m]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis label="Temperature [°C]" side="LEFT" /></yAxis>
+                </LineChart>
+                
+                <HBox alignment="bottom_right" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Hyperlink text="Luis Carlos A. Rojas Torres"/>
+                </HBox> 
+            </children>
+        </GridPane>
+    </children>    
+</GridPane>

@@ -21,10 +21,11 @@ public class PUFx extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLPUfx.fxml"));
         
-        Scene scene = new Scene(root);
+        Scene mainScene = new Scene(root);
         stage.setTitle("PUfx v1.0");
-        stage.setScene(scene);
+        stage.setScene(mainScene);
         stage.show();
+        
     }
 
     /**
