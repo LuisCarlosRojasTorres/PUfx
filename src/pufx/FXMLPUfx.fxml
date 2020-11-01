@@ -121,21 +121,21 @@
         
         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0" >
             <children>
-                <LineChart fx:id="chart_EpVSFreq" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <xAxis><NumberAxis label="Frequency [Hz]" side="BOTTOM" /></xAxis>
-                    <yAxis><NumberAxis label="Storage Modulus [MPa]" side="LEFT" /></yAxis>
+                <LineChart fx:id="chart_EpVSFreq" title="Storage Modulus [MPa]" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <xAxis><NumberAxis fx:id="xEpVSFreq" label="Frequency [Hz]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis fx:id="yEpVSFreq" label="" side="LEFT" /></yAxis>
                 </LineChart>
-                <LineChart fx:id="chart_EppVSFreq" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <xAxis><NumberAxis label="Frequency [Hz]" side="BOTTOM" /></xAxis>
-                    <yAxis><NumberAxis label="Loss Modulus [MPa]" side="LEFT" /></yAxis>
+                <LineChart fx:id="chart_EppVSFreq" title="Loss Modulus [MPa]" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <xAxis><NumberAxis fx:id="xEppVSFreq" label="Frequency [Hz]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis fx:id="yEppVSFreq" label="" side="LEFT" /></yAxis>
                 </LineChart>
-                <LineChart fx:id="chart_EpVSTemp" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <xAxis><NumberAxis label="Temperature [°C]" side="BOTTOM" /></xAxis>
-                    <yAxis><NumberAxis label="Storage Modulus [MPa]" side="LEFT" /></yAxis>
+                <LineChart fx:id="chart_EpVSTemp" title="Storage Modulus [MPa]" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <xAxis><NumberAxis fx:id="xEpVSTemp" label="Temperature [°C]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis fx:id="yEpVSTemp" label="" side="LEFT" /></yAxis>
                 </LineChart>
-                <LineChart fx:id="chart_EppVSTemp" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <xAxis><NumberAxis label="Temperature [°C]" side="BOTTOM" /></xAxis>
-                    <yAxis><NumberAxis label="Loss Modulus [MPa]" side="LEFT" /></yAxis>
+                <LineChart fx:id="chart_EppVSTemp" title="Loss Modulus [MPa]" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <xAxis><NumberAxis fx:id="xEppVSTemp" label="Temperature [°C]" side="BOTTOM" /></xAxis>
+                    <yAxis><NumberAxis fx:id="yEppVSTemp" label="" side="LEFT" /></yAxis>
                 </LineChart>
                 <HBox alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <Hyperlink text="Luis Carlos A. Rojas Torres"/>

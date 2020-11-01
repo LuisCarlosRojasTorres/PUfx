@@ -17,6 +17,7 @@ public class LV {
     private ArrayList<Double> arrayTaui;
     
     private double Tref,c1,c2;
+    private double poisson;
     
     //CONSTRUCTORES
     public LV(){
@@ -45,6 +46,7 @@ public class LV {
         this.Tref = 23;
         this.c1 = 7.32;
         this.c2 = 93.62;
+        this.poisson = 0.45;
     }
     
     public LV(double E0,ArrayList<Double> Ei,ArrayList<Double> Taui,double Tref,double c1,double c2){
@@ -61,9 +63,15 @@ public class LV {
         this.c1 = c1;
         this.c2 = c2;
         
+        this.poisson = 0.45;
+        
+    }
+    public LV(LV dummy){
+        this(dummy.getE0(),dummy.getArrayEi(),dummy.getArrayTaui(),dummy.getTref(),dummy.getc1(),dummy.getc2());
     }
     //FIN de CONSTRUCTORES
     //SETTERS
+    public void setPoisson(double v){this.poisson = v;}
     public void setE0(double E0){this.E0 = E0;}
     public void setTref(double Tref){this.Tref = Tref;}
     public void setc1(double c1){this.c1 = c1;}
@@ -82,9 +90,12 @@ public class LV {
         if(!arrayTaui.isEmpty()){this.arrayTaui = arrayTaui;}
     }
     //getters
-    
-    
-    
+    public double getE0(){return this.E0;}
+    public double getTref(){return this.Tref;}
+    public double getc1(){return this.c1;}
+    public double getc2(){return this.c2;}
+    public ArrayList<Double> getArrayEi(){return this.arrayEi;}
+    public ArrayList<Double> getArrayTaui(){return this.arrayTaui;}
     
     //Viscoelastic Properties
     public double getShiftFactor(double temperature){
@@ -107,6 +118,15 @@ public class LV {
             Epp+=arrayEi.get(i)*(omega*at*arrayTaui.get(i))/(1+Math.pow((omega*at*arrayTaui.get(i)),2));
         }
         return Epp;
+    }
+    
+    public double getJpp(double frequency,double temperature){
+        double Ep = this.getStorageModulus(frequency, temperature);
+        double Epp = this.getLossModulus(frequency, temperature);
+        double Gp = Ep/(2*(1+this.poisson));
+        double Gpp = Epp/(2*(1+this.poisson));
+        
+        return Math.pow(10, -6)*Gpp/(Math.pow(Gp, 2)+Math.pow(Gpp, 2));
     }
     
     public ArrayList<Double> getEpVSFrec(ArrayList<Double> frequencies,double temperature){

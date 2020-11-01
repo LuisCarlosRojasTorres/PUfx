@@ -6,18 +6,19 @@
 package pufx;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
  *
  * @author Luis Carlos A. Rojas Torres <luiscarlos.bsf@oceanica.ufrj.br>
  */
-public class FXMLPUfxController {
+public class FXMLPUfxController implements Initializable  {
     @FXML private TableView<PUTable> tableView;
     @FXML private TextField txt_Ei;
     @FXML private TextField txt_Taui;
@@ -40,6 +41,8 @@ public class FXMLPUfxController {
     ArrayList<Double> temperatures,frequencies;
     ArrayList<Double> EpVSTemp,EppVSTemp,EpVSFreq,EppVSFreq;
     //Axis
+    @FXML private NumberAxis xEpVSFreq,yEpVSFreq,xEppVSFreq,yEppVSFreq;
+    @FXML private NumberAxis xEpVSTemp,yEpVSTemp,xEppVSTemp,yEppVSTemp;
     //Series que contienen los datos
     XYChart.Series seriesEpVSTemp  = new XYChart.Series();
     XYChart.Series seriesEppVSTemp = new XYChart.Series();
@@ -53,9 +56,10 @@ public class FXMLPUfxController {
     
     double temp,freq;
     boolean firstTime = true;
+    ObservableList<PUTable> data;
         
     @FXML protected void add(ActionEvent event){
-        ObservableList<PUTable> data = tableView.getItems();
+        //ObservableList<PUTable> data = tableView.getItems();
         if(!txt_Ei.getText().equals("") && !txt_Taui.getText().equals("")){
             data.add(new PUTable(txt_Ei.getText(),txt_Taui.getText()));
         }
@@ -64,13 +68,14 @@ public class FXMLPUfxController {
     }
     
     @FXML protected void clear(ActionEvent event){
-        ObservableList<PUTable> data = tableView.getItems();
+        //ObservableList<PUTable> data = tableView.getItems();
         data.clear();
     }
      
     @FXML protected void generate(ActionEvent event){
         
         PU = LVmaker();
+       
         PU.printALL();
         EpppVSTempMaker();
         EpppVSFreqMaker();
@@ -89,9 +94,54 @@ public class FXMLPUfxController {
             chart_EppVSFreq.getData().add(seriesEppVSFreq);
             firstTime = false;
         }
+        
+        setAxis();
+        
     }
     
-    private LV LVmaker(){
+    public void setAxis(){
+        xEpVSFreq.setAutoRanging(false);
+        xEpVSFreq.setLowerBound(getMin(frequencies));
+        xEpVSFreq.setUpperBound(getMax(frequencies));
+        xEpVSFreq.setTickUnit((getMax(frequencies)-getMin(frequencies))/10);
+        
+        xEppVSFreq.setAutoRanging(false);
+        xEppVSFreq.setLowerBound(getMin(frequencies));
+        xEppVSFreq.setUpperBound(getMax(frequencies));
+        xEppVSFreq.setTickUnit((getMax(frequencies)-getMin(frequencies))/10);
+        
+        xEpVSTemp.setAutoRanging(false);
+        xEpVSTemp.setLowerBound(getMin(temperatures));
+        xEpVSTemp.setUpperBound(getMax(temperatures));
+        xEpVSTemp.setTickUnit((getMax(temperatures)-getMin(temperatures))/10);
+        
+        xEppVSTemp.setAutoRanging(false);
+        xEppVSTemp.setLowerBound(getMin(temperatures));
+        xEppVSTemp.setUpperBound(getMax(temperatures));
+        xEppVSTemp.setTickUnit((getMax(temperatures)-getMin(temperatures))/10);
+        
+        yEpVSFreq.setAutoRanging(false);
+        yEpVSFreq.setLowerBound(getMin(EpVSFreq));
+        yEpVSFreq.setUpperBound(getMax(EpVSFreq));
+        yEpVSFreq.setTickUnit((getMax(EpVSFreq)-getMin(EpVSFreq))/10);
+       
+        yEppVSFreq.setAutoRanging(false);
+        yEppVSFreq.setLowerBound(getMin(EppVSFreq));
+        yEppVSFreq.setUpperBound(getMax(EppVSFreq));
+        yEppVSFreq.setTickUnit((getMax(EppVSFreq)-getMin(EppVSFreq))/10);
+        
+        yEpVSTemp.setAutoRanging(false);
+        yEpVSTemp.setLowerBound(getMin(EpVSTemp));
+        yEpVSTemp.setUpperBound(getMax(EpVSTemp));
+        yEpVSTemp.setTickUnit((getMax(EpVSTemp)-getMin(EpVSTemp))/10);
+        
+        yEppVSTemp.setAutoRanging(false);
+        yEppVSTemp.setLowerBound(getMin(EppVSTemp));
+        yEppVSTemp.setUpperBound(getMax(EppVSTemp));
+        yEppVSTemp.setTickUnit((getMax(EppVSTemp)-getMin(EppVSTemp))/10);
+        
+    }
+    @FXML private LV LVmaker(){
         //Contruye el objeto PU apartir de la GUI si hay algun valor que no se definio
         // toma el de la tesis
         LV PU = new LV();
@@ -199,33 +249,65 @@ public class FXMLPUfxController {
         
     }
     @FXML public void undo(ActionEvent event){
-        if(!firstTime){
-            ObservableList<PUTable> data = tableView.getItems();
+        //if(!firstTime){
+            //ObservableList<PUTable> data = tableView.getItems();
             data.remove(data.size()-1);
             
-        }
+        //}
     }
-    @FXML public void simulate (){
+    public void simulate (ActionEvent event)throws IOException{
         if(!firstTime){
         System.out.println("Simulation Running");
         }
-        Stage Ventana = new Stage();
-        Parent simulation = null;
-        try {
-            simulation = FXMLLoader.load(getClass().getResource("FXMLSimulation.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLPUfxController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("FXMLSimulation.fxml"));
+        Parent simulationParent = loader.load();
         
-        Scene scene = new Scene(simulation);
+        Scene simulationScene = new Scene(simulationParent);
         
-        Ventana.setScene(scene);
-        Ventana.setTitle("Shear and Axial Stress Simulation");
-        Ventana.show();
+        //Acceso al controlador
+        FXMLSimulationController controller = loader.getController();
+        controller.initData(this.PU);
+        
+        Stage simulationStage = new Stage();        
+        //Stage simulationStage = (Stage)((Node)event.getSource()).getScene().getWindow();;        
+        
+        simulationStage.setScene(simulationScene);
+        simulationStage.setResizable(false);        
+        simulationStage.setTitle("Shear and Axial Stress Simulation");
+        simulationStage.show();
+        
+        
+        //Accessa el controlador
+        //
+        
     }
     @FXML public void exportCSV(){
         if(!firstTime){
         System.out.println("CSV file generated!");
         }
+    }
+    @FXML public LV getMaterial(){
+        return PU;
+    }
+    public static double getMax(ArrayList<Double> array){
+        double max = 0;
+        for(double i:array){
+            if(i>max){max=i;}
+        }
+        return max;
+    }
+    public static double getMin(ArrayList<Double> array){
+        double min = array.get(0);
+        for(double i:array){
+            if(i<min){min=i;}
+        }
+        return min;
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        PU = LVmaker();
+        data = tableView.getItems();
     }
 }

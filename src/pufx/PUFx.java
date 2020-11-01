@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * @author Luis Carlos A. Rojas Torres <luiscarlos.bsf@oceanica.ufrj.br>
  */
 public class PUFx extends Application {
-    
+        
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLPUfx.fxml"));
@@ -24,6 +24,7 @@ public class PUFx extends Application {
         Scene mainScene = new Scene(root);
         stage.setTitle("PUfx v1.0");
         stage.setScene(mainScene);
+        stage.setResizable(false);
         stage.show();
         
     }
